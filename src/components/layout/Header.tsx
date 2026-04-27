@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
       }`}
     >
       {/* 3-Column Grid Container */}
-      <div className="w-full max-w-450 mx-auto px-10 grid grid-cols-3 items-center">
+      <div className="w-full max-w-450 mx-auto md:px-10 px-4 grid grid-cols-3 items-center">
         
         {/* Left Column: Placeholder/Empty when not scrolled */}
         <div className="flex justify-start">
