@@ -4,7 +4,7 @@ import BookingWidget from '@/components/ui/BookingWidget'
 import { FadeInTextAnimation } from '@/components/ui/ControlledFadeIn';
 import StarRating from '@/components/ui/StarsRating'
 import { useRef, useState } from 'react';
-
+import ville_vid from "@/assets/video/villa.mp4"
 
 function Hero() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -234,7 +234,7 @@ function Hero() {
                 {/* Background Image */}
                 <div className='absolute inset-0 bg-black/40 z-1' />
                 <video
-                    src='./src/assets/video/villa.mp4'
+                    src={ville_vid}
                     ref={videoRef}
                     className="w-full h-full object-cover"
                     preload="auto"

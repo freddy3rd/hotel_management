@@ -109,7 +109,7 @@ useEffect(() => {
     <section ref={sectionRef} className="relative min-h-screen grid items-center py-20 bg-bg overflow-hidden">
       
       {/* 1. SECTION TITLE GRID (Now a separate row on top, outside the content grid) */}
-      <div className="container max-w-[1400px] m-auto grid grid-cols-12 px-10 mb-20 items-end">
+      <div className="container max-w-350 m-auto grid grid-cols-12 px-10 mb-20 items-end">
         
         {/* Left: Introduction */}
         <div className="col-span-12 md:col-span-5 leading-snug order-2 md:order-1 pt-8 md:pt-0">
@@ -133,10 +133,10 @@ useEffect(() => {
 
 
       {/* 2. CONTENT GRID (Carousel on left, dynamic description on right) */}
-      <div className="container max-w-[1400px] m-auto grid grid-cols-1 md:grid-cols-2 items-center px-10 gap-x-12">
+      <div className="container max-w-350 m-auto grid grid-cols-1 md:grid-cols-2 items-center px-10 gap-x-12">
 
         {/* LEFT: HORIZONTAL CAROUSEL TRACK */}
-        <div className="relative flex items-center overflow-hidden h-[500px]">
+        <div className="relative flex items-center overflow-hidden h-125 order-2 md:order-1">
           <div
             ref={trackRef}
             className="relative flex gap-6 px-10" // gap-6 = 24px
@@ -159,7 +159,7 @@ useEffect(() => {
         </div>
 
         {/* RIGHT: DYNAMIC DESCRIPTION & FEATURES */}
-        <div className="flex flex-col justify-center p-8 md:p-12 h-full">
+        <div className="flex flex-col justify-center p-8 md:p-12 h-full order-1 md:order-2">
           
           {/* Dynamic Content: Title */}
           <h2

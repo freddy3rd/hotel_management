@@ -13,14 +13,14 @@ const Navbar: React.FC = () => {
   
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-in-out h-25 flex items-center ${
+      className={`fixed top-0 left-0 right-0 z-100 transition-all duration-700 ease-in-out h-25 flex items-center ${
         scrolled 
           ? 'bg-brand-900/90 backdrop-blur-xl shadow-sm h-20! ' 
           : 'bg-transparent md:pt-20'
       }`}
     >
       {/* 3-Column Grid Container */}
-      <div className="w-full max-w-[1800px] mx-auto px-10 grid grid-cols-3 items-center">
+      <div className="w-full max-w-450 mx-auto px-10 grid grid-cols-3 items-center">
         
         {/* Left Column: Placeholder/Empty when not scrolled */}
         <div className="flex justify-start">
@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
 
         {/* Center Column: The Estate */}
         <div className="flex justify-center">
-          <span className={`transition-all duration-700 font-serif italic tracking-[0.1em] text-surface font-bold ${
+          <span className={`transition-all duration-700 font-serif italic tracking-widest text-surface font-bold ${
             scrolled ? 'text-xl opacity-100' : 'text-2xl opacity-80'
           }`}>
             The Estate
@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 top-0 bg-surface/98 backdrop-blur-2xl z-[90] md:hidden flex flex-col justify-center items-center space-y-8 transition-transform duration-500 ${
+      <div className={`fixed inset-0 top-0 bg-surface/98 backdrop-blur-2xl z-90 md:hidden flex flex-col justify-center items-center space-y-8 transition-transform duration-500 ${
         mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
          <button onClick={() => setMobileMenuOpen(false)} className="absolute top-10 right-10 text-text-primary uppercase tracking-widest text-xs">Close</button>
