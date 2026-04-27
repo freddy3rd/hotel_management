@@ -131,7 +131,7 @@ function FadeLeftText({
             trigger: textRef.current,
             start: "top 80%",
             toggleActions: "play reverse play reverse",
-            markers: true,
+            // markers: true,
           },
         }
       );
