@@ -1,0 +1,2514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Velour — Reserve Your Stay Effortlessly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Outfit:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --sand: #F2EDE6;
+            --sand2: #EAE3DA;
+            --cream: #FBF8F4;
+            --peach: #E8B48A;
+            --peach2: #D4956A;
+            --brown: #7A5C3F;
+            --charcoal: #1E2328;
+            --charcoal2: #2C333A;
+            --slate: #5A6470;
+            --mist: #AEC4CE;
+            --white: #FFFFFF;
+            --gold: #C9A84C;
+            --gold2: #E0C068;
+            --err: #C0504A;
+            --ok: #4A9B72;
+            --frost: rgba(255, 255, 255, 0.46);
+            --frost-b: rgba(255, 255, 255, 0.58);
+            --r: 12px;
+            --rL: 20px;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--charcoal);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            line-height: 1.7;
+            cursor: none
+        }
+
+        /* CURSOR */
+        #cur,
+        #curR {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%)
+        }
+
+        #cur {
+            width: 9px;
+            height: 9px;
+            background: var(--charcoal);
+            border-radius: 50%;
+            transition: width .2s, height .2s, background .2s
+        }
+
+        #curR {
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid rgba(30, 35, 40, 0.3);
+            border-radius: 50%;
+            transition: width .35s, height .35s, border-color .25s
+        }
+
+        #cur.h {
+            width: 18px;
+            height: 18px;
+            background: var(--peach2)
+        }
+
+        #curR.h {
+            width: 52px;
+            height: 52px;
+            border-color: var(--peach2)
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 300;
+            padding: 1.6rem 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background .4s, padding .3s, box-shadow .3s
+        }
+
+        nav.on {
+            background: rgba(242, 237, 230, 0.94);
+            backdrop-filter: blur(18px);
+            padding: 1rem 5rem;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07)
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            text-decoration: none;
+            letter-spacing: .06em
+        }
+
+        .logo span {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--peach2)
+        }
+
+        .navL {
+            display: flex;
+            align-items: center;
+            gap: 2.4rem
+        }
+
+        .navL a {
+            font-size: .8rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--slate);
+            text-decoration: none;
+            transition: color .2s
+        }
+
+        .navL a:hover {
+            color: var(--charcoal)
+        }
+
+        .navCTA {
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: .58rem 1.6rem;
+            border-radius: 3px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .78rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: background .25s, transform .2s
+        }
+
+        .navCTA:hover {
+            background: var(--charcoal2);
+            transform: translateY(-1px)
+        }
+
+        .ham {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: none;
+            padding: 4px
+        }
+
+        .ham span {
+            display: block;
+            width: 22px;
+            height: 1.5px;
+            background: var(--slate);
+            transition: all .3s
+        }
+
+        /* HERO */
+        #hero {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 8rem 5rem 5rem;
+            gap: 4rem
+        }
+
+        .hero-bg-img {
+            position: absolute;
+            inset: 0;
+            z-index: 0
+        }
+
+        .hero-bg-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(.35) saturate(.8)
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(120deg, rgba(30, 35, 40, .82) 0%, rgba(30, 35, 40, .55) 50%, rgba(122, 92, 63, .3) 100%)
+        }
+
+        .hero-left {
+            position: relative;
+            z-index: 2
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            font-size: .7rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .65);
+            margin-bottom: 1.8rem;
+            animation: fU .9s .1s both
+        }
+
+        .eDot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--peach);
+            flex-shrink: 0
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 5.5vw, 5rem);
+            font-weight: 300;
+            line-height: 1.08;
+            color: var(--white);
+            margin-bottom: 1.4rem;
+            letter-spacing: -.01em;
+            animation: fU .9s .25s both
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--peach);
+            font-weight: 300
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, .7);
+            max-width: 440px;
+            line-height: 1.85;
+            margin-bottom: 2.8rem;
+            animation: fU .9s .4s both
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fU .9s .55s both
+        }
+
+        .btnMain {
+            background: var(--peach2);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2.6rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            cursor: none;
+            transition: background .25s, transform .2s;
+            font-weight: 400
+        }
+
+        .btnMain:hover {
+            background: var(--brown);
+            transform: translateY(-2px)
+        }
+
+        .btnGhost {
+            background: var(--frost);
+            color: var(--white);
+            border: 1px solid var(--frost-b);
+            padding: 1rem 2rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            cursor: none;
+            backdrop-filter: blur(12px);
+            transition: background .25s, transform .2s;
+            font-weight: 400
+        }
+
+        .btnGhost:hover {
+            background: rgba(255, 255, 255, .22);
+            transform: translateY(-2px)
+        }
+
+        .hero-trust {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2.2rem;
+            animation: fU .9s .7s both
+        }
+
+        .stars {
+            display: flex;
+            gap: 2px
+        }
+
+        .stars span {
+            color: var(--gold2);
+            font-size: .95rem
+        }
+
+        .trust-txt {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, .6)
+        }
+
+        .trust-txt strong {
+            color: var(--white)
+        }
+
+        /* HERO RIGHT — booking form preview card */
+        .hero-right {
+            position: relative;
+            z-index: 2;
+            animation: fI .9s .35s both
+        }
+
+        .booking-preview {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: var(--rL);
+            padding: 2.2rem;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .22);
+            max-width: 400px;
+            margin: 0 auto
+        }
+
+        .bp-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: .3rem
+        }
+
+        .bp-sub {
+            font-size: .78rem;
+            color: var(--slate);
+            margin-bottom: 1.6rem
+        }
+
+        .bp-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .9rem;
+            margin-bottom: .9rem
+        }
+
+        .bp-field {
+            display: flex;
+            flex-direction: column;
+            gap: .35rem
+        }
+
+        .bp-field.full {
+            grid-column: 1/-1
+        }
+
+        .bp-field label {
+            font-size: .68rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--slate)
+        }
+
+        .bp-field input,
+        .bp-field select {
+            width: 100%;
+            background: var(--sand);
+            border: 1px solid rgba(90, 100, 112, .14);
+            border-radius: 8px;
+            padding: .68rem .9rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .88rem;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            -webkit-appearance: none
+        }
+
+        .bp-field input:focus,
+        .bp-field select:focus {
+            border-color: var(--peach2);
+            box-shadow: 0 0 0 3px rgba(212, 149, 106, .14)
+        }
+
+        .bp-field input.err,
+        .bp-field select.err {
+            border-color: var(--err)
+        }
+
+        .bp-nights {
+            background: var(--sand2);
+            border-radius: 8px;
+            padding: .7rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: .9rem;
+            font-size: .82rem;
+            color: var(--slate)
+        }
+
+        .bp-nights strong {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--peach2);
+            font-weight: 600
+        }
+
+        .bp-submit {
+            width: 100%;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: .95rem;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: background .25s;
+            font-weight: 400;
+            margin-top: .3rem
+        }
+
+        .bp-submit:hover {
+            background: var(--charcoal2)
+        }
+
+        .fErr {
+            font-size: .7rem;
+            color: var(--err);
+            margin-top: .15rem;
+            display: none
+        }
+
+        .fErr.show {
+            display: block
+        }
+
+        /* STATS */
+        .stats-bar {
+            background: var(--charcoal);
+            padding: 2.4rem 5rem;
+            display: flex;
+            justify-content: center;
+            gap: 6rem;
+            flex-wrap: wrap;
+            position: relative
+        }
+
+        .stats-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mist), var(--peach), var(--gold), var(--peach), var(--mist))
+        }
+
+        .sI {
+            text-align: center
+        }
+
+        .sN {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            color: var(--white);
+            font-weight: 300;
+            line-height: 1
+        }
+
+        .sL {
+            font-size: .7rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: rgba(174, 196, 206, .7);
+            margin-top: .25rem
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 7rem 5rem
+        }
+
+        .sTag {
+            font-size: .7rem;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            color: var(--peach2);
+            margin-bottom: .9rem;
+            display: block
+        }
+
+        .sTitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            font-weight: 300;
+            line-height: 1.15;
+            color: var(--charcoal);
+            margin-bottom: 1rem
+        }
+
+        .sTitle em {
+            font-style: italic;
+            color: var(--brown)
+        }
+
+        .sSub {
+            font-size: .95rem;
+            color: var(--slate);
+            max-width: 520px;
+            line-height: 1.85
+        }
+
+        /* FEATURES */
+        #features {
+            background: var(--sand)
+        }
+
+        .feat-hd {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem
+        }
+
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.4rem;
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        .fCard {
+            background: var(--white);
+            border: 1px solid rgba(90, 100, 112, .09);
+            border-radius: var(--rL);
+            padding: 2.2rem 1.8rem;
+            transition: box-shadow .3s, transform .3s;
+            position: relative;
+            overflow: hidden;
+            cursor: default
+        }
+
+        .fCard::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mist), var(--peach));
+            opacity: 0;
+            transition: opacity .3s
+        }
+
+        .fCard:hover {
+            box-shadow: 0 16px 48px rgba(30, 35, 40, .1);
+            transform: translateY(-5px)
+        }
+
+        .fCard:hover::after {
+            opacity: 1
+        }
+
+        .fImgWrap {
+            width: 100%;
+            height: 160px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.4rem;
+            position: relative;
+            background: var(--sand)
+        }
+
+        .fImgWrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s;
+            display: block
+        }
+
+        .fCard:hover .fImgWrap img {
+            transform: scale(1.06)
+        }
+
+        .fImgWrap .fImgSkeleton {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--sand) 25%, var(--sand2) 50%, var(--sand) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0
+            }
+
+            100% {
+                background-position: -200% 0
+            }
+        }
+
+        .fName {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: .5rem
+        }
+
+        .fDesc {
+            font-size: .84rem;
+            color: var(--slate);
+            line-height: 1.75
+        }
+
+        .fBadge {
+            display: inline-block;
+            margin-top: .9rem;
+            font-size: .64rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--brown);
+            border: 1px solid rgba(122, 92, 63, .3);
+            padding: .22rem .75rem;
+            border-radius: 20px
+        }
+
+        /* RESERVATION SECTION */
+        #reserve {
+            background: linear-gradient(160deg, rgba(174, 196, 206, .12) 0%, var(--cream) 50%, rgba(232, 180, 138, .12) 100%)
+        }
+
+        .res-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 6rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start
+        }
+
+        .res-info .sTitle {
+            margin-bottom: 1.2rem
+        }
+
+        .res-amenities {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: .9rem
+        }
+
+        .ra-item {
+            display: flex;
+            align-items: center;
+            gap: .9rem
+        }
+
+        .ra-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: rgba(232, 180, 138, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .ra-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--peach2);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .ra-text {
+            font-size: .86rem;
+            color: var(--slate)
+        }
+
+        /* RESERVATION FORM */
+        .res-form-wrap {
+            background: var(--white);
+            border-radius: var(--rL);
+            padding: 2.8rem;
+            box-shadow: 0 16px 56px rgba(30, 35, 40, .09);
+            border: 1px solid rgba(90, 100, 112, .07)
+        }
+
+        .rf-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: .3rem;
+            color: var(--charcoal)
+        }
+
+        .rf-sub {
+            font-size: .8rem;
+            color: var(--slate);
+            margin-bottom: 1.8rem
+        }
+
+        .rf-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem
+        }
+
+        .rf-field {
+            display: flex;
+            flex-direction: column;
+            gap: .38rem
+        }
+
+        .rf-field.full {
+            grid-column: 1/-1
+        }
+
+        .rf-field label {
+            font-size: .69rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--slate)
+        }
+
+        .rf-field label .req {
+            color: var(--peach2)
+        }
+
+        .rf-field input,
+        .rf-field select,
+        .rf-field textarea {
+            width: 100%;
+            background: var(--sand);
+            border: 1px solid rgba(90, 100, 112, .14);
+            border-radius: 8px;
+            padding: .72rem 1rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .88rem;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            -webkit-appearance: none;
+            resize: vertical
+        }
+
+        .rf-field input:focus,
+        .rf-field select:focus,
+        .rf-field textarea:focus {
+            border-color: var(--peach2);
+            box-shadow: 0 0 0 3px rgba(212, 149, 106, .13)
+        }
+
+        .rf-field input.err,
+        .rf-field select.err {
+            border-color: var(--err)
+        }
+
+        .rf-nights {
+            background: linear-gradient(135deg, rgba(232, 180, 138, .15), rgba(174, 196, 206, .1));
+            border: 1px solid rgba(232, 180, 138, .25);
+            border-radius: 8px;
+            padding: .8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: .82rem;
+            color: var(--slate)
+        }
+
+        .rf-nights .nn {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--peach2);
+            font-weight: 600;
+            line-height: 1
+        }
+
+        .rf-submit {
+            width: 100%;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: background .25s, transform .2s;
+            font-weight: 400;
+            margin-top: .4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .7rem
+        }
+
+        .rf-submit:hover {
+            background: var(--charcoal2);
+            transform: translateY(-1px)
+        }
+
+        .rf-submit svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2
+        }
+
+        /* CONFIRMATION BANNER */
+        .confirm-banner {
+            display: none;
+            background: linear-gradient(135deg, rgba(74, 155, 114, .12), rgba(74, 155, 114, .06));
+            border: 1px solid rgba(74, 155, 114, .3);
+            border-radius: 10px;
+            padding: 1.4rem 1.6rem;
+            margin-bottom: 1.4rem;
+            gap: .8rem
+        }
+
+        .confirm-banner.show {
+            display: flex;
+            align-items: flex-start
+        }
+
+        .confirm-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--ok);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: .1rem
+        }
+
+        .confirm-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5
+        }
+
+        .confirm-txt .ct {
+            font-weight: 500;
+            color: var(--ok);
+            font-size: .9rem;
+            margin-bottom: .2rem
+        }
+
+        .confirm-txt .cs {
+            font-size: .82rem;
+            color: var(--slate)
+        }
+
+        /* RESERVATIONS LIST */
+        .res-list {
+            margin-top: 2rem
+        }
+
+        .rl-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: .9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .rl-clear {
+            background: none;
+            border: 1px solid rgba(192, 80, 74, .3);
+            color: var(--err);
+            font-size: .7rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            border-radius: 5px;
+            padding: .3rem .8rem;
+            cursor: none;
+            transition: background .2s
+        }
+
+        .rl-clear:hover {
+            background: rgba(192, 80, 74, .07)
+        }
+
+        .rl-items {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: .3rem
+        }
+
+        .rl-items::-webkit-scrollbar {
+            width: 4px
+        }
+
+        .rl-items::-webkit-scrollbar-track {
+            background: var(--sand)
+        }
+
+        .rl-items::-webkit-scrollbar-thumb {
+            background: var(--sand2);
+            border-radius: 2px
+        }
+
+        .rl-item {
+            background: var(--sand);
+            border-radius: 8px;
+            padding: .85rem 1rem;
+            font-size: .78rem;
+            color: var(--slate);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: .5rem;
+            align-items: start
+        }
+
+        .rl-item .rn {
+            font-weight: 500;
+            color: var(--charcoal);
+            font-size: .85rem
+        }
+
+        .rl-item .rd {
+            margin-top: .15rem
+        }
+
+        .rl-badge {
+            background: var(--peach2);
+            color: var(--white);
+            font-size: .6rem;
+            letter-spacing: .1em;
+            padding: .18rem .55rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            white-space: nowrap
+        }
+
+        /* CTA */
+        #cta {
+            background: linear-gradient(135deg, var(--peach) 0%, rgba(246, 216, 193, .6) 45%, var(--mist) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        #cta::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .18);
+            pointer-events: none
+        }
+
+        .cta-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 680px;
+            margin: 0 auto
+        }
+
+        .cta-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--charcoal);
+            margin-bottom: 1.2rem
+        }
+
+        .cta-title em {
+            font-style: italic
+        }
+
+        .cta-sub {
+            font-size: 1rem;
+            color: var(--slate);
+            margin-bottom: 3rem
+        }
+
+        .cta-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .btnCTA {
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2.8rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            cursor: none;
+            transition: background .25s, transform .2s;
+            font-weight: 400
+        }
+
+        .btnCTA:hover {
+            background: var(--charcoal2);
+            transform: translateY(-2px)
+        }
+
+        .btnCTAg {
+            background: var(--frost);
+            color: var(--charcoal);
+            border: 1px solid rgba(255, 255, 255, .7);
+            padding: 1rem 2rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            cursor: none;
+            backdrop-filter: blur(10px);
+            transition: background .25s, transform .2s;
+            font-weight: 400
+        }
+
+        .btnCTAg:hover {
+            background: rgba(255, 255, 255, .75);
+            transform: translateY(-2px)
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--charcoal);
+            padding: 4.5rem 5rem 2.5rem;
+            position: relative
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mist), var(--peach), var(--gold), var(--peach), var(--mist))
+        }
+
+        .footGrid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+            margin-bottom: 2rem
+        }
+
+        .footLogo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            text-decoration: none;
+            display: block;
+            margin-bottom: .9rem
+        }
+
+        .footLogo span {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--peach)
+        }
+
+        .footDesc {
+            font-size: .84rem;
+            color: rgba(174, 196, 206, .7);
+            line-height: 1.8;
+            max-width: 280px;
+            margin-bottom: 1.5rem
+        }
+
+        .footSoc {
+            display: flex;
+            gap: .7rem
+        }
+
+        .sBtn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+            transition: border-color .2s, background .2s;
+            color: rgba(174, 196, 206, .7)
+        }
+
+        .sBtn:hover {
+            border-color: var(--peach);
+            background: rgba(232, 180, 138, .1);
+            color: var(--peach)
+        }
+
+        .sBtn svg {
+            width: 13px;
+            height: 13px;
+            fill: currentColor
+        }
+
+        .footCol h4 {
+            font-size: .68rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 1.1rem;
+            font-weight: 400
+        }
+
+        .footCol a {
+            display: block;
+            font-size: .82rem;
+            color: rgba(174, 196, 206, .65);
+            text-decoration: none;
+            margin-bottom: .6rem;
+            transition: color .2s
+        }
+
+        .footCol a:hover {
+            color: var(--peach)
+        }
+
+        .footBot {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .72rem;
+            color: rgba(174, 196, 206, .45);
+            flex-wrap: wrap;
+            gap: .8rem
+        }
+
+        .footBot a {
+            color: rgba(174, 196, 206, .45);
+            text-decoration: none;
+            transition: color .2s
+        }
+
+        .footBot a:hover {
+            color: var(--peach)
+        }
+
+        /* MODAL */
+        .mOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(30, 35, 40, .6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .35s
+        }
+
+        .mOverlay.open {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .mBox {
+            background: var(--cream);
+            border-radius: var(--rL);
+            padding: 3rem;
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            transform: scale(.95) translateY(16px);
+            transition: transform .35s;
+            box-shadow: 0 32px 80px rgba(30, 35, 40, .25)
+        }
+
+        .mOverlay.open .mBox {
+            transform: scale(1) translateY(0)
+        }
+
+        .mClose {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            cursor: none;
+            color: var(--slate);
+            font-size: 1.3rem;
+            line-height: 1;
+            padding: .3rem .5rem;
+            transition: color .2s
+        }
+
+        .mClose:hover {
+            color: var(--charcoal)
+        }
+
+        .mLogo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--slate);
+            margin-bottom: .25rem
+        }
+
+        .mLogo span {
+            font-style: italic;
+            color: var(--charcoal)
+        }
+
+        .mTitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.85rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            margin-bottom: .2rem
+        }
+
+        .mHint {
+            font-size: .82rem;
+            color: var(--slate);
+            margin-bottom: 1.6rem
+        }
+
+        .mTabs {
+            display: flex;
+            border-bottom: 1px solid rgba(90, 100, 112, .15);
+            margin-bottom: 1.6rem
+        }
+
+        .mTab {
+            background: none;
+            border: none;
+            cursor: none;
+            padding: .65rem 1.2rem .65rem 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: .78rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--slate);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color .2s, border-color .2s
+        }
+
+        .mTab.on {
+            color: var(--charcoal);
+            border-bottom-color: var(--peach2)
+        }
+
+        .mPanel {
+            display: none
+        }
+
+        .mPanel.on {
+            display: block
+        }
+
+        .socRow {
+            display: flex;
+            gap: .8rem;
+            margin-bottom: 1.1rem
+        }
+
+        .sAuthBtn {
+            flex: 1;
+            background: var(--white);
+            border: 1px solid rgba(90, 100, 112, .14);
+            border-radius: 8px;
+            padding: .62rem;
+            cursor: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .78rem;
+            color: var(--slate);
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .sAuthBtn:hover {
+            border-color: var(--peach2);
+            box-shadow: 0 2px 12px rgba(212, 149, 106, .18)
+        }
+
+        .sAuthBtn svg {
+            width: 15px;
+            height: 15px
+        }
+
+        .divLine {
+            text-align: center;
+            font-size: .7rem;
+            color: var(--slate);
+            margin: .9rem 0;
+            position: relative
+        }
+
+        .divLine::before,
+        .divLine::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 38%;
+            height: 1px;
+            background: rgba(90, 100, 112, .15)
+        }
+
+        .divLine::before {
+            left: 0
+        }
+
+        .divLine::after {
+            right: 0
+        }
+
+        .mFg {
+            margin-bottom: 1rem
+        }
+
+        .mFg label {
+            display: block;
+            font-size: .68rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--slate);
+            margin-bottom: .4rem
+        }
+
+        .mFg input {
+            width: 100%;
+            background: var(--white);
+            border: 1px solid rgba(90, 100, 112, .15);
+            border-radius: 8px;
+            padding: .72rem .95rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: .88rem;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .mFg input:focus {
+            border-color: var(--peach2);
+            box-shadow: 0 0 0 3px rgba(212, 149, 106, .12)
+        }
+
+        .mFg input.e {
+            border-color: var(--err)
+        }
+
+        .mFgErr {
+            font-size: .7rem;
+            color: var(--err);
+            margin-top: .2rem;
+            display: none
+        }
+
+        .mFgErr.show {
+            display: block
+        }
+
+        .mSubmit {
+            width: 100%;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: .9rem;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .8rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: background .25s;
+            font-weight: 400;
+            margin-top: .2rem
+        }
+
+        .mSubmit:hover {
+            background: var(--charcoal2)
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 600;
+            background: var(--charcoal);
+            color: var(--white);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            border-left: 3px solid var(--peach2);
+            box-shadow: 0 12px 40px rgba(30, 35, 40, .3);
+            transform: translateX(130%);
+            transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+            max-width: 300px;
+            font-size: .84rem
+        }
+
+        .toast.on {
+            transform: translateX(0)
+        }
+
+        .toast-h {
+            font-weight: 500;
+            color: var(--peach);
+            margin-bottom: .15rem;
+            font-size: .88rem
+        }
+
+        /* MOBILE NAV */
+        .mobNav {
+            position: fixed;
+            inset: 0;
+            z-index: 299;
+            background: rgba(242, 237, 230, .97);
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s
+        }
+
+        .mobNav.open {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .mobNav a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.1rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            text-decoration: none;
+            font-style: italic;
+            transition: color .2s
+        }
+
+        .mobNav a:hover {
+            color: var(--peach2)
+        }
+
+        /* REVEAL */
+        .rv {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .75s ease, transform .75s ease
+        }
+
+        .rv.vis {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        /* ANIMATIONS */
+        @keyframes fU {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fI {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1100px) {
+            .feat-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:960px) {
+            nav {
+                padding: 1.2rem 1.8rem
+            }
+
+            .nav.on {
+                padding: .9rem 1.8rem
+            }
+
+            .navL {
+                display: none
+            }
+
+            .ham {
+                display: flex
+            }
+
+            #hero {
+                grid-template-columns: 1fr;
+                padding: 7rem 1.8rem 4rem;
+                text-align: center
+            }
+
+            .hero-right {
+                display: none
+            }
+
+            .hero-btns,
+            .hero-trust {
+                justify-content: center
+            }
+
+            section {
+                padding: 5rem 1.8rem
+            }
+
+            .stats-bar {
+                padding: 2rem 1.8rem;
+                gap: 2.5rem
+            }
+
+            .res-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem
+            }
+
+            .footGrid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2.5rem
+            }
+
+            footer {
+                padding: 3rem 1.8rem 2rem
+            }
+        }
+
+        @media(max-width:560px) {
+
+            .rf-row,
+            .bp-row {
+                grid-template-columns: 1fr
+            }
+
+            .feat-grid {
+                grid-template-columns: 1fr
+            }
+
+            .footGrid {
+                grid-template-columns: 1fr;
+                gap: 2rem
+            }
+
+            .footBot {
+                flex-direction: column;
+                text-align: center
+            }
+
+            .mBox {
+                padding: 2rem 1.4rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="cur"></div>
+    <div id="curR"></div>
+
+    <!-- NAV -->
+    <nav id="navBar" role="navigation" aria-label="Main navigation">
+        <a href="#" class="logo" aria-label="Velour Hotel">Vel<span>our</span></a>
+        <div class="navL">
+            <a href="#features">Services</a>
+            <a href="#reserve">Reserve</a>
+            <a href="#cta">Offers</a>
+            <a href="#" onclick="openModal('login');return false;">Sign In</a>
+            <button class="navCTA" onclick="openModal('signup')">Book Now</button>
+        </div>
+        <button class="ham" id="hamBtn" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobNav" id="mobNav" role="dialog" aria-label="Mobile navigation">
+        <a href="#features" onclick="closeMob()">Services</a>
+        <a href="#reserve" onclick="closeMob()">Reserve</a>
+        <a href="#cta" onclick="closeMob()">Offers</a>
+        <a href="#" onclick="closeMob();openModal('login');return false;">Sign In</a>
+        <a href="#" onclick="closeMob();openModal('signup');return false;">Book Now</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero" aria-label="Hero section">
+        <div class="hero-bg-img" role="img" aria-label="Luxury hotel lobby">
+            <!-- Unsplash: luxury hotel lobby, lazy loaded via JS below -->
+            <img id="heroBgImg" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&auto=format&fit=crop&q=75"
+                data-src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&auto=format&fit=crop&q=75"
+                alt="Luxury hotel lobby interior" width="1800" height="1200" />
+        </div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+
+        <div class="hero-left">
+            <div class="hero-eyebrow"><span class="eDot" aria-hidden="true"></span>Luxury Hotel · Est. 2008</div>
+            <h1 class="hero-title">Reserve Your Stay<br><em>Effortlessly</em></h1>
+            <p class="hero-sub">Experience unmatched comfort in the heart of the city. From intimate stays to grand
+                suites — every reservation crafted for you.</p>
+            <div class="hero-btns">
+                <button class="btnMain" onclick="scrollToReserve()">Reserve Now</button>
+                <button class="btnGhost" onclick="openModal('signup')">Get the App</button>
+            </div>
+            <div class="hero-trust" role="region" aria-label="Guest rating">
+                <div class="stars" aria-label="5-star rating">
+                    <span aria-hidden="true">★</span><span aria-hidden="true">★</span><span
+                        aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span>
+                </div>
+                <p class="trust-txt"><strong>4.9 / 5</strong> from 3,200+ verified guests</p>
+            </div>
+        </div>
+
+        <!-- HERO QUICK BOOKING FORM -->
+        <div class="hero-right">
+            <div class="booking-preview" role="region" aria-label="Quick booking">
+                <div class="bp-title">Quick Reserve</div>
+                <div class="bp-sub">Check availability for your dates</div>
+                <div class="bp-row">
+                    <div class="bp-field">
+                        <label for="qci">Check-in</label>
+                        <input type="date" id="qci" aria-required="true" />
+                    </div>
+                    <div class="bp-field">
+                        <label for="qco">Check-out</label>
+                        <input type="date" id="qco" aria-required="true" />
+                    </div>
+                </div>
+                <div class="bp-row">
+                    <div class="bp-field">
+                        <label for="qtype">Room Type</label>
+                        <select id="qtype" aria-required="true">
+                            <option value="">Select type</option>
+                            <option>Single Room</option>
+                            <option>Double Room</option>
+                            <option>Deluxe Suite</option>
+                            <option>Presidential Suite</option>
+                        </select>
+                    </div>
+                    <div class="bp-field">
+                        <label for="qguests">Guests</label>
+                        <select id="qguests">
+                            <option>1 Guest</option>
+                            <option>2 Guests</option>
+                            <option>3 Guests</option>
+                            <option>4+ Guests</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="bp-nights" id="qpNights" aria-live="polite">
+                    <span>Stay Duration</span>
+                    <strong id="qpNightVal">— nights</strong>
+                </div>
+                <button class="bp-submit" onclick="scrollToReserve()">Check Availability</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar" role="region" aria-label="Hotel statistics">
+        <div class="sI rv">
+            <div class="sN" data-to="850">0</div>
+            <div class="sL">Luxury Rooms</div>
+        </div>
+        <div class="sI rv" style="transition-delay:.1s">
+            <div class="sN" data-to="98">0</div>
+            <div class="sL">% Guest Satisfaction</div>
+        </div>
+        <div class="sI rv" style="transition-delay:.2s">
+            <div class="sN" data-to="15">0</div>
+            <div class="sL">Years of Excellence</div>
+        </div>
+        <div class="sI rv" style="transition-delay:.3s">
+            <div class="sN" data-to="42">0</div>
+            <div class="sL">Dining Options</div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section id="features" aria-labelledby="feat-h">
+        <div class="feat-hd rv">
+            <span class="sTag">Hotel Services</span>
+            <h2 class="sTitle" id="feat-h">World-class amenities<br><em>at your fingertips</em></h2>
+            <p class="sSub" style="margin:0 auto">Every detail of your stay is thoughtfully curated for an unforgettable
+                experience.</p>
+        </div>
+        <div class="feat-grid">
+
+            <div class="fCard rv" tabindex="0" role="article" aria-label="Luxury Rooms">
+                <div class="fImgWrap">
+                    <div class="fImgSkeleton" aria-hidden="true"></div>
+                    <img data-src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&auto=format&fit=crop&q=70"
+                        alt="Luxury hotel room with king bed" loading="lazy" width="500" height="333" />
+                </div>
+                <div class="fName">Luxury Rooms</div>
+                <p class="fDesc">Spacious rooms with premium bedding, city or garden views, and bespoke interiors
+                    designed for restful elegance.</p>
+                <span class="fBadge">From $199/night</span>
+            </div>
+
+            <div class="fCard rv" style="transition-delay:.08s" tabindex="0" role="article"
+                aria-label="Dining & Restaurant">
+                <div class="fImgWrap">
+                    <div class="fImgSkeleton" aria-hidden="true"></div>
+                    <img data-src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&auto=format&fit=crop&q=70"
+                        alt="Elegant hotel restaurant dining" loading="lazy" width="500" height="333" />
+                </div>
+                <div class="fName">Dining & Restaurant</div>
+                <p class="fDesc">Michelin-inspired cuisine served in three signature restaurants, a rooftop bar, and
+                    24-hour in-room dining.</p>
+                <span class="fBadge">3 Venues</span>
+            </div>
+
+            <div class="fCard rv" style="transition-delay:.16s" tabindex="0" role="article" aria-label="Pool & Spa">
+                <div class="fImgWrap">
+                    <div class="fImgSkeleton" aria-hidden="true"></div>
+                    <img data-src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&auto=format&fit=crop&q=70"
+                        alt="Hotel spa and wellness center" loading="lazy" width="500" height="333" />
+                </div>
+                <div class="fName">Pool & Spa</div>
+                <p class="fDesc">A serene infinity pool, thermal suite, and full-service spa offering over 30 treatments
+                    for total rejuvenation.</p>
+                <span class="fBadge">Open Daily</span>
+            </div>
+
+            <div class="fCard rv" style="transition-delay:.24s" tabindex="0" role="article" aria-label="24/7 Concierge">
+                <div class="fImgWrap">
+                    <div class="fImgSkeleton" aria-hidden="true"></div>
+                    <img data-src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500&auto=format&fit=crop&q=70"
+                        alt="Hotel concierge desk" loading="lazy" width="500" height="333" />
+                </div>
+                <div class="fName">24/7 Concierge</div>
+                <p class="fDesc">Our dedicated concierge team is available around the clock for reservations, transfers,
+                    and every personal request.</p>
+                <span class="fBadge">Always Available</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- RESERVATION SECTION -->
+    <section id="reserve" aria-labelledby="res-h">
+        <div class="res-grid">
+            <div class="res-info rv">
+                <span class="sTag">Reservations</span>
+                <h2 class="sTitle" id="res-h">Book your room<br><em>in minutes</em></h2>
+                <p class="sSub">Fill in your details and we'll confirm your reservation instantly. No hidden fees, no
+                    surprises.</p>
+                <div class="res-amenities" aria-label="Included amenities">
+                    <div class="ra-item">
+                        <div class="ra-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg></div>
+                        <div class="ra-text"><strong style="color:var(--charcoal)">Free cancellation</strong> up to 48
+                            hours before arrival</div>
+                    </div>
+                    <div class="ra-item">
+                        <div class="ra-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                                <rect x="1" y="4" width="22" height="16" rx="2" />
+                                <line x1="1" y1="10" x2="23" y2="10" />
+                            </svg></div>
+                        <div class="ra-text"><strong style="color:var(--charcoal)">No credit card</strong> required to
+                            reserve</div>
+                    </div>
+                    <div class="ra-item">
+                        <div class="ra-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg></div>
+                        <div class="ra-text"><strong style="color:var(--charcoal)">Instant confirmation</strong> sent to
+                            your email</div>
+                    </div>
+                    <div class="ra-item">
+                        <div class="ra-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg></div>
+                        <div class="ra-text"><strong style="color:var(--charcoal)">Best rate guarantee</strong> when
+                            booking direct</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FULL RESERVATION FORM -->
+            <div class="res-form-wrap rv" style="transition-delay:.1s">
+                <!-- Confirmation Banner -->
+                <div class="confirm-banner" id="confirmBanner" role="alert" aria-live="polite">
+                    <div class="confirm-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg></div>
+                    <div class="confirm-txt">
+                        <div class="ct" id="confirmTitle">Reservation Confirmed!</div>
+                        <div class="cs" id="confirmSub">Your booking has been saved. A confirmation has been sent to
+                            your email.</div>
+                    </div>
+                </div>
+
+                <div class="rf-title">Reservation Details</div>
+                <div class="rf-sub">All fields marked with <span style="color:var(--peach2)">*</span> are required</div>
+
+                <form id="resForm" novalidate onsubmit="submitReservation(event)" aria-label="Reservation form">
+                    <div class="rf-row">
+                        <div class="rf-field">
+                            <label for="rfName">Guest Name <span class="req">*</span></label>
+                            <input type="text" id="rfName" placeholder="Jane Smith" autocomplete="name"
+                                aria-required="true" />
+                            <p class="fErr" id="rfNameErr" role="alert">Please enter your full name.</p>
+                        </div>
+                        <div class="rf-field">
+                            <label for="rfEmail">Email Address <span class="req">*</span></label>
+                            <input type="email" id="rfEmail" placeholder="jane@email.com" autocomplete="email"
+                                aria-required="true" />
+                            <p class="fErr" id="rfEmailErr" role="alert">Please enter a valid email address.</p>
+                        </div>
+                    </div>
+                    <div class="rf-row">
+                        <div class="rf-field">
+                            <label for="rfCi">Check-in Date <span class="req">*</span></label>
+                            <input type="date" id="rfCi" aria-required="true" />
+                            <p class="fErr" id="rfCiErr" role="alert">Please select a check-in date.</p>
+                        </div>
+                        <div class="rf-field">
+                            <label for="rfCo">Check-out Date <span class="req">*</span></label>
+                            <input type="date" id="rfCo" aria-required="true" />
+                            <p class="fErr" id="rfCoErr" role="alert">Check-out must be after check-in.</p>
+                        </div>
+                    </div>
+                    <div class="rf-row">
+                        <div class="rf-field">
+                            <label for="rfTime">Arrival Time (optional)</label>
+                            <input type="time" id="rfTime" aria-label="Expected arrival time" />
+                        </div>
+                        <div class="rf-field">
+                            <label for="rfType">Room Type <span class="req">*</span></label>
+                            <select id="rfType" aria-required="true">
+                                <option value="">Select room type</option>
+                                <option value="Single">Single Room</option>
+                                <option value="Double">Double Room</option>
+                                <option value="Deluxe">Deluxe Suite</option>
+                                <option value="Presidential">Presidential Suite</option>
+                            </select>
+                            <p class="fErr" id="rfTypeErr" role="alert">Please select a room type.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stay Duration Indicator -->
+                    <div class="rf-nights" id="rfNights" aria-live="polite">
+                        <div>
+                            <div style="font-weight:500;color:var(--charcoal);font-size:.85rem">Stay Duration</div>
+                            <div style="font-size:.75rem;color:var(--slate);margin-top:.1rem" id="rfNightDate">Select
+                                dates to calculate</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div class="nn" id="rfNightNum">—</div>
+                            <div style="font-size:.7rem;letter-spacing:.08em;text-transform:uppercase"
+                                id="rfNightLabel">nights</div>
+                        </div>
+                    </div>
+
+                    <div class="rf-field full" style="margin-bottom:1rem">
+                        <label for="rfReq">Special Requests (optional)</label>
+                        <textarea id="rfReq" rows="3"
+                            placeholder="e.g. Early check-in, anniversary setup, dietary requirements…"
+                            aria-label="Special requests or notes"></textarea>
+                    </div>
+
+                    <button type="submit" class="rf-submit" aria-label="Submit reservation">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                        Confirm Reservation
+                    </button>
+                </form>
+
+                <!-- Previous Reservations List -->
+                <div class="res-list" id="resList" aria-label="Your reservations" style="display:none">
+                    <div class="rl-title">
+                        <span>Your Reservations</span>
+                        <button class="rl-clear" onclick="clearReservations()" aria-label="Clear all reservations">Clear
+                            All</button>
+                    </div>
+                    <div class="rl-items" id="rlItems" role="list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" aria-labelledby="cta-h">
+        <div class="cta-inner rv">
+            <h2 class="cta-title" id="cta-h">Your perfect stay<br><em>awaits you</em></h2>
+            <p class="cta-sub">Reserve today and enjoy exclusive member benefits — complimentary breakfast, late
+                checkout, and room upgrades.</p>
+            <div class="cta-btns">
+                <button class="btnCTA" onclick="scrollToReserve()">Reserve Now</button>
+                <button class="btnCTAg"
+                    onclick="showToast('A member offer has been sent to your email.','Exclusive Offer Sent')">View
+                    Offers</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+        <div class="footGrid">
+            <div>
+                <a href="#" class="footLogo" aria-label="Velour Hotel">Vel<span>our</span></a>
+                <p class="footDesc">A sanctuary of luxury and comfort. Velour has set the gold standard for hospitality
+                    since 2008, welcoming guests from around the world.</p>
+                <div class="footSoc" aria-label="Social media links">
+                    <a href="#" class="sBtn" aria-label="Twitter/X">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="sBtn" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor"
+                                stroke-width="2" />
+                            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                            <circle cx="17.5" cy="6.5" r="1.5" />
+                        </svg>
+                    </a>
+                    <a href="#" class="sBtn" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="sBtn" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footCol">
+                <h4>Hotel</h4>
+                <a href="#features">Our Rooms</a>
+                <a href="#features">Dining</a>
+                <a href="#features">Spa & Pool</a>
+                <a href="#">Events & Weddings</a>
+                <a href="#">Gallery</a>
+            </div>
+            <div class="footCol">
+                <h4>Support</h4>
+                <a href="#">Contact Us</a>
+                <a href="#">FAQs</a>
+                <a href="#">Loyalty Program</a>
+                <a href="#">Group Bookings</a>
+                <a href="#">Gift Cards</a>
+            </div>
+            <div class="footCol">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Cancellation Policy</a>
+            </div>
+        </div>
+        <div class="footBot">
+            <span>© 2025 Velour Hotel. All rights reserved.</span>
+            <span>
+                <a href="#">Privacy</a> &nbsp;·&nbsp;
+                <a href="#">Terms</a> &nbsp;·&nbsp;
+                <a href="#">Accessibility</a>
+            </span>
+            <span>📍 12 Grand Avenue, New York, NY 10001 &nbsp;·&nbsp; +1 (212) 555-0190</span>
+        </div>
+    </footer>
+
+    <!-- AUTH MODAL -->
+    <div class="mOverlay" id="authModal" role="dialog" aria-modal="true" aria-label="Authentication">
+        <div class="mBox">
+            <button class="mClose" onclick="closeModal()" aria-label="Close modal">×</button>
+            <div class="mLogo">Vel<span>our</span> Hotel</div>
+            <h2 class="mTitle" id="mTitle">Welcome back</h2>
+            <p class="mHint" id="mHint">Sign in to manage your reservations</p>
+            <div class="mTabs" role="tablist">
+                <button class="mTab on" id="mt-login" onclick="switchTab('login')" role="tab" aria-selected="true">Sign
+                    In</button>
+                <button class="mTab" id="mt-signup" onclick="switchTab('signup')" role="tab" aria-selected="false">Sign
+                    Up</button>
+            </div>
+            <div class="mPanel on" id="mp-login" role="tabpanel">
+                <div class="socRow">
+                    <button class="sAuthBtn" onclick="showToast('Google sign-in coming soon.','Google Auth')"
+                        aria-label="Sign in with Google">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                        Google
+                    </button>
+                    <button class="sAuthBtn" onclick="showToast('Facebook sign-in coming soon.','Facebook Auth')"
+                        aria-label="Sign in with Facebook">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#1877F2">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        Facebook
+                    </button>
+                </div>
+                <div class="divLine">or sign in with email</div>
+                <form onsubmit="handleLogin(event)" novalidate>
+                    <div class="mFg">
+                        <label for="lEmail">Email Address</label>
+                        <input type="email" id="lEmail" placeholder="you@example.com" autocomplete="email"
+                            aria-required="true" />
+                        <p class="mFgErr" id="lEmailErr" role="alert">Please enter a valid email.</p>
+                    </div>
+                    <div class="mFg">
+                        <label for="lPass">Password</label>
+                        <input type="password" id="lPass" placeholder="••••••••" autocomplete="current-password"
+                            aria-required="true" />
+                        <p class="mFgErr" id="lPassErr" role="alert">Password must be at least 6 characters.</p>
+                    </div>
+                    <button type="submit" class="mSubmit">Sign In</button>
+                </form>
+            </div>
+            <div class="mPanel" id="mp-signup" role="tabpanel">
+                <div class="socRow">
+                    <button class="sAuthBtn" onclick="showToast('Google sign-up coming soon.','Google Auth')"
+                        aria-label="Sign up with Google">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                        Google
+                    </button>
+                    <button class="sAuthBtn" onclick="showToast('Facebook sign-up coming soon.','Facebook Auth')"
+                        aria-label="Sign up with Facebook">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#1877F2">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        Facebook
+                    </button>
+                </div>
+                <div class="divLine">or create with email</div>
+                <form onsubmit="handleSignup(event)" novalidate>
+                    <div class="mFg">
+                        <label for="sName">Full Name</label>
+                        <input type="text" id="sName" placeholder="Jane Smith" autocomplete="name"
+                            aria-required="true" />
+                        <p class="mFgErr" id="sNameErr" role="alert">Please enter your full name.</p>
+                    </div>
+                    <div class="mFg">
+                        <label for="sEmail">Email Address</label>
+                        <input type="email" id="sEmail" placeholder="you@example.com" autocomplete="email"
+                            aria-required="true" />
+                        <p class="mFgErr" id="sEmailErr" role="alert">Please enter a valid email.</p>
+                    </div>
+                    <div class="mFg">
+                        <label for="sPass">Password</label>
+                        <input type="password" id="sPass" placeholder="Min. 8 characters" autocomplete="new-password"
+                            aria-required="true" />
+                        <p class="mFgErr" id="sPassErr" role="alert">Password must be at least 8 characters.</p>
+                    </div>
+                    <button type="submit" class="mSubmit">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toastEl" role="status" aria-live="polite">
+        <div class="toast-h" id="toastH"></div>
+        <div id="toastM"></div>
+    </div>
+
+    <script>
+        /* ─── CURSOR ─────────────────────────────────── */
+        const cur = document.getElementById('cur'), curR = document.getElementById('curR');
+        let mx = 0, my = 0, rx = 0, ry = 0, raf;
+        if (window.matchMedia('(pointer:fine)').matches) {
+            document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx + 'px'; cur.style.top = my + 'px'; });
+            (function tick() { rx += (mx - rx) * .13; ry += (my - ry) * .13; curR.style.left = rx + 'px'; curR.style.top = ry + 'px'; requestAnimationFrame(tick); })();
+            document.querySelectorAll('a,button,.fCard,.p-card,.booking-preview,.res-form-wrap').forEach(el => {
+                el.addEventListener('mouseenter', () => { cur.classList.add('h'); curR.classList.add('h'); });
+                el.addEventListener('mouseleave', () => { cur.classList.remove('h'); curR.classList.remove('h'); });
+            });
+        } else { cur.style.display = 'none'; curR.style.display = 'none'; }
+
+        /* ─── NAV SCROLL ────────────────────────────── */
+        const nb = document.getElementById('navBar');
+        window.addEventListener('scroll', () => nb.classList.toggle('on', scrollY > 60));
+
+        /* ─── HAMBURGER ─────────────────────────────── */
+        const hamB = document.getElementById('hamBtn'), mobN = document.getElementById('mobNav');
+        hamB.addEventListener('click', () => {
+            const o = mobN.classList.toggle('open');
+            hamB.setAttribute('aria-expanded', o);
+            const sp = hamB.querySelectorAll('span');
+            if (o) { sp[0].style.transform = 'rotate(45deg) translate(5px,5px)'; sp[1].style.opacity = '0'; sp[2].style.transform = 'rotate(-45deg) translate(5px,-5px)'; }
+            else { sp.forEach(s => { s.style.transform = ''; s.style.opacity = ''; }); }
+            document.body.style.overflow = o ? 'hidden' : '';
+        });
+        function closeMob() {
+            mobN.classList.remove('open');
+            hamB.setAttribute('aria-expanded', 'false');
+            hamB.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+            document.body.style.overflow = '';
+        }
+
+        /* ─── LAZY LOAD IMAGES ──────────────────────── */
+        (function () {
+            // Hero bg
+            const hImg = document.getElementById('heroBgImg');
+            if (hImg && hImg.dataset.src) {
+                const tmp = new Image();
+                tmp.onload = () => { hImg.src = hImg.dataset.src; };
+                tmp.src = hImg.dataset.src;
+            }
+            // Feature cards & others via IntersectionObserver
+            const lazyImgs = document.querySelectorAll('img[data-src]');
+            if ('IntersectionObserver' in window) {
+                const io = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(e => {
+                        if (!e.isIntersecting) return;
+                        const img = e.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        // hide skeleton once loaded
+                        img.onload = () => {
+                            const sk = img.previousElementSibling;
+                            if (sk && sk.classList.contains('fImgSkeleton')) sk.style.display = 'none';
+                        };
+                        obs.unobserve(img);
+                    });
+                }, { rootMargin: '200px 0px' });
+                lazyImgs.forEach(img => io.observe(img));
+            } else {
+                // fallback
+                lazyImgs.forEach(img => { img.src = img.dataset.src; });
+            }
+        })();
+
+        /* ─── SCROLL TO RESERVE ─────────────────────── */
+        function scrollToReserve() {
+            document.getElementById('reserve').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => document.getElementById('rfName').focus(), 600);
+        }
+
+        /* ─── QUICK PREVIEW NIGHTS ─────────────────── */
+        function calcQuickNights() {
+            const ci = document.getElementById('qci').value, co = document.getElementById('qco').value;
+            const el = document.getElementById('qpNightVal');
+            if (ci && co) {
+                const d = Math.round((new Date(co) - new Date(ci)) / (864e5));
+                el.textContent = d > 0 ? d + ' night' + (d > 1 ? 's' : '') : 'Invalid';
+            }
+        }
+        document.getElementById('qci').addEventListener('change', calcQuickNights);
+        document.getElementById('qco').addEventListener('change', calcQuickNights);
+
+        /* ─── RESERVATION FORM NIGHTS ───────────────── */
+        function calcNights() {
+            const ci = document.getElementById('rfCi').value, co = document.getElementById('rfCo').value;
+            const numEl = document.getElementById('rfNightNum'), lblEl = document.getElementById('rfNightLabel'), dtEl = document.getElementById('rfNightDate');
+            if (ci && co) {
+                const d = Math.round((new Date(co) - new Date(ci)) / (864e5));
+                if (d > 0) {
+                    numEl.textContent = d;
+                    lblEl.textContent = 'night' + (d > 1 ? 's' : '');
+                    const o = { month: 'short', day: 'numeric' };
+                    dtEl.textContent = new Date(ci + 'T12:00').toLocaleDateString('en-US', o) + ' → ' + new Date(co + 'T12:00').toLocaleDateString('en-US', o);
+                } else {
+                    numEl.textContent = '—'; lblEl.textContent = 'nights'; dtEl.textContent = 'Check-out must be after check-in';
+                }
+            } else {
+                numEl.textContent = '—'; lblEl.textContent = 'nights'; dtEl.textContent = 'Select dates to calculate';
+            }
+        }
+        document.getElementById('rfCi').addEventListener('change', calcNights);
+        document.getElementById('rfCo').addEventListener('change', calcNights);
+
+        /* ─── PRE-FILL FROM LAST RESERVATION ────────── */
+        function prefillForm() {
+            try {
+                const stored = JSON.parse(localStorage.getItem('velourReservations') || '[]');
+                if (stored.length) {
+                    const last = stored[stored.length - 1];
+                    document.getElementById('rfName').value = last.name || '';
+                    document.getElementById('rfEmail').value = last.email || '';
+                }
+            } catch (e) { }
+        }
+
+        /* ─── SAVE RESERVATION ───────────────────────── */
+        function saveReservation(data) {
+            try {
+                const existing = JSON.parse(localStorage.getItem('velourReservations') || '[]');
+                existing.push({ ...data, id: Date.now() });
+                localStorage.setItem('velourReservations', JSON.stringify(existing));
+            } catch (e) { }
+        }
+
+        /* ─── RENDER RESERVATIONS LIST ──────────────── */
+        function renderResList() {
+            try {
+                const stored = JSON.parse(localStorage.getItem('velourReservations') || '[]');
+                const container = document.getElementById('resList');
+                const items = document.getElementById('rlItems');
+                if (!stored.length) { container.style.display = 'none'; return; }
+                container.style.display = 'block';
+                items.innerHTML = stored.map(r => `
+      <div class="rl-item" role="listitem">
+        <div>
+          <div class="rn">${escHtml(r.name)}</div>
+          <div class="rd">${escHtml(r.checkIn)} → ${escHtml(r.checkOut)} · ${r.nights} night${r.nights > 1 ? 's' : ''}</div>
+          <div class="rd" style="color:var(--charcoal);margin-top:.1rem">${escHtml(r.email)}</div>
+        </div>
+        <span class="rl-badge">${escHtml(r.type)}</span>
+      </div>
+    `).join('');
+            } catch (e) { }
+        }
+        function clearReservations() {
+            if (confirm('Clear all saved reservations?')) {
+                localStorage.removeItem('velourReservations');
+                document.getElementById('resList').style.display = 'none';
+                showToast('All reservations cleared.', 'Cleared');
+            }
+        }
+        function escHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+        /* ─── VALIDATION HELPERS ─────────────────────── */
+        function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+        function clearFormErrors() {
+            document.querySelectorAll('#resForm .fErr').forEach(e => e.classList.remove('show'));
+            document.querySelectorAll('#resForm input, #resForm select').forEach(e => e.classList.remove('err'));
+        }
+        function showFErr(errId, inpId) {
+            const e = document.getElementById(errId); if (e) e.classList.add('show');
+            const i = document.getElementById(inpId); if (i) i.classList.add('err');
+        }
+
+        /* ─── SUBMIT RESERVATION ─────────────────────── */
+        function submitReservation(e) {
+            e.preventDefault();
+            clearFormErrors();
+            let ok = true;
+            const name = document.getElementById('rfName').value.trim();
+            const email = document.getElementById('rfEmail').value.trim();
+            const ci = document.getElementById('rfCi').value;
+            const co = document.getElementById('rfCo').value;
+            const type = document.getElementById('rfType').value;
+            const time = document.getElementById('rfTime').value;
+            const req = document.getElementById('rfReq').value.trim();
+
+            if (!name) { showFErr('rfNameErr', 'rfName'); ok = false; }
+            if (!validEmail(email)) { showFErr('rfEmailErr', 'rfEmail'); ok = false; }
+            if (!ci) { showFErr('rfCiErr', 'rfCi'); ok = false; }
+            if (!co || new Date(co) <= new Date(ci)) { showFErr('rfCoErr', 'rfCo'); ok = false; }
+            if (!type) { showFErr('rfTypeErr', 'rfType'); ok = false; }
+
+            if (!ok) return;
+
+            const nights = Math.round((new Date(co) - new Date(ci)) / (864e5));
+            const fmt = { month: 'short', day: 'numeric', year: 'numeric' };
+            const data = {
+                name, email, type,
+                checkIn: new Date(ci + 'T12:00').toLocaleDateString('en-US', fmt),
+                checkOut: new Date(co + 'T12:00').toLocaleDateString('en-US', fmt),
+                nights, arrivalTime: time || 'Not specified',
+                specialRequests: req || 'None',
+                reservedAt: new Date().toISOString()
+            };
+
+            saveReservation(data);
+            renderResList();
+
+            // Show confirmation
+            const banner = document.getElementById('confirmBanner');
+            document.getElementById('confirmTitle').textContent = 'Reservation Confirmed!';
+            document.getElementById('confirmSub').textContent = `${name}, your ${type} is booked for ${nights} night${nights > 1 ? 's' : ''} from ${data.checkIn} to ${data.checkOut}.`;
+            banner.classList.add('show');
+            banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            showToast(`Booking confirmed for ${data.checkIn}!`, 'Reservation Saved');
+
+            // Reset form (keep name/email for convenience)
+            document.getElementById('rfCi').value = '';
+            document.getElementById('rfCo').value = '';
+            document.getElementById('rfType').value = '';
+            document.getElementById('rfTime').value = '';
+            document.getElementById('rfReq').value = '';
+            document.getElementById('rfNightNum').textContent = '—';
+            document.getElementById('rfNightDate').textContent = 'Select dates to calculate';
+        }
+
+        /* ─── MODAL ─────────────────────────────────── */
+        function openModal(tab) {
+            document.getElementById('authModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            switchTab(tab || 'login');
+            setTimeout(() => { const f = document.querySelector('#authModal input'); if (f) f.focus(); }, 350);
+        }
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('open');
+            document.body.style.overflow = '';
+            clearModalErrors();
+        }
+        document.getElementById('authModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        function switchTab(t) {
+            ['login', 'signup'].forEach(n => {
+                document.getElementById('mt-' + n).classList.toggle('on', n === t);
+                document.getElementById('mt-' + n).setAttribute('aria-selected', n === t);
+                document.getElementById('mp-' + n).classList.toggle('on', n === t);
+            });
+            document.getElementById('mTitle').textContent = t === 'login' ? 'Welcome back' : 'Create account';
+            document.getElementById('mHint').textContent = t === 'login' ? 'Sign in to manage your reservations' : 'Start your luxury experience today';
+            clearModalErrors();
+        }
+        function clearModalErrors() {
+            document.querySelectorAll('.mFgErr').forEach(e => e.classList.remove('show'));
+            document.querySelectorAll('.mFg input').forEach(e => e.classList.remove('e'));
+        }
+        function showMErr(id, inpId) {
+            const e = document.getElementById(id); if (e) e.classList.add('show');
+            const i = document.getElementById(inpId); if (i) i.classList.add('e');
+        }
+        function handleLogin(e) {
+            e.preventDefault(); clearModalErrors(); let ok = true;
+            const em = document.getElementById('lEmail').value.trim();
+            const pw = document.getElementById('lPass').value;
+            if (!validEmail(em)) { showMErr('lEmailErr', 'lEmail'); ok = false; }
+            if (pw.length < 6) { showMErr('lPassErr', 'lPass'); ok = false; }
+            if (ok) { closeModal(); showToast('Welcome back! Redirecting to your dashboard…', 'Signed In'); }
+        }
+        function handleSignup(e) {
+            e.preventDefault(); clearModalErrors(); let ok = true;
+            const nm = document.getElementById('sName').value.trim();
+            const em = document.getElementById('sEmail').value.trim();
+            const pw = document.getElementById('sPass').value;
+            if (!nm) { showMErr('sNameErr', 'sName'); ok = false; }
+            if (!validEmail(em)) { showMErr('sEmailErr', 'sEmail'); ok = false; }
+            if (pw.length < 8) { showMErr('sPassErr', 'sPass'); ok = false; }
+            if (ok) { closeModal(); showToast('Account created! Check your email to verify.', 'Welcome to Velour'); }
+        }
+
+        /* ─── TOAST ─────────────────────────────────── */
+        let toastTimer;
+        function showToast(msg, head) {
+            const el = document.getElementById('toastEl');
+            document.getElementById('toastM').textContent = msg;
+            document.getElementById('toastH').textContent = head || '';
+            el.classList.add('on');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('on'), 4500);
+        }
+
+        /* ─── SCROLL REVEAL ─────────────────────────── */
+        const rvEls = document.querySelectorAll('.rv');
+        new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }), { threshold: .08, rootMargin: '0px 0px -30px 0px' }).observe = null;
+        const rvObs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }), { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+        rvEls.forEach(el => rvObs.observe(el));
+
+        /* ─── COUNTER ANIMATION ─────────────────────── */
+        document.querySelectorAll('.sN[data-to]').forEach(el => {
+            new IntersectionObserver(ents => {
+                if (!ents[0].isIntersecting) return;
+                const t = +el.dataset.to, suf = el.dataset.suf || ''; let st;
+                const step = ts => {
+                    if (!st) st = ts; const p = Math.min((ts - st) / 1600, 1); const e2 = 1 - Math.pow(1 - p, 3);
+                    el.textContent = Math.floor(e2 * t) + suf;
+                    if (p < 1) requestAnimationFrame(step); else el.textContent = t + suf;
+                };
+                requestAnimationFrame(step);
+            }, { threshold: .5 }).observe(el);
+        });
+
+        /* ─── INIT ──────────────────────────────────── */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set min dates for date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('rfCi').min = today;
+            document.getElementById('rfCo').min = today;
+            document.getElementById('qci').min = today;
+            document.getElementById('qco').min = today;
+            // Prefill name/email from last booking
+            prefillForm();
+            // Render existing reservations
+            renderResList();
+        });
+        // Update min checkout when checkin changes
+        document.getElementById('rfCi').addEventListener('change', () => {
+            document.getElementById('rfCo').min = document.getElementById('rfCi').value;
+        });
+        document.getElementById('qci').addEventListener('change', () => {
+            document.getElementById('qco').min = document.getElementById('qci').value;
+        });
+    </script>
+</body>
+
+</html>
