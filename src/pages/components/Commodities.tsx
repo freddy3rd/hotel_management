@@ -139,7 +139,7 @@ useEffect(() => {
         <div className="relative flex items-center overflow-hidden h-125 order-2 md:order-1">
           <div
             ref={trackRef}
-            className="relative flex gap-6 px-10" // gap-6 = 24px
+            className="relative flex gap-6 px-5 md:px-10" // gap-6 = 24px
           >
             {COMMODITIES.map((item, index) => (
               <div
@@ -159,7 +159,7 @@ useEffect(() => {
         </div>
 
         {/* RIGHT: DYNAMIC DESCRIPTION & FEATURES */}
-        <div className="flex flex-col justify-center p-8 md:p-12 h-full order-1 md:order-2 flex-col-reverse md:flex-col">
+        <div className="flex flex-col justify-center p-4 md:p-12 h-full order-1 md:order-2 flex-col-reverse md:flex-col">
           
           <div>
                       {/* Dynamic Content: Title */}
