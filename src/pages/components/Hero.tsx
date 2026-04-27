@@ -4,6 +4,7 @@ import BookingWidget from '@/components/ui/BookingWidget'
 import { FadeInTextAnimation } from '@/components/ui/ControlledFadeIn';
 import StarRating from '@/components/ui/StarsRating'
 import { useRef, useState } from 'react';
+import gsap from 'gsap';
 import ville_vid from "@/assets/video/villa.mp4"
 
 function Hero() {
