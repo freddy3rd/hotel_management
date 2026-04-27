@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Right Column: NavLinks (place-content-end) */}
-        <div className="flex justify-end items-center gap-8">
+        <div className="flex justify-end items-center gap-4 md:gap-8">
           <div className="hidden md:flex items-center gap-8">
             {['Rooms', 'Experience'].map((item) => (
               <a
@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
             ))}
           </div>
           
-          <button className="bg-white/20 backdrop-blur-md border border-white/40 text-white px-2 md:px-6 py-2.5 rounded-full text-sm font-medium hover:bg-white/30 transition-all hover:scale-105">
+          <button className="bg-white/20 backdrop-blur-md border border-white/40 text-white px-2 md:px-6 py-2.5 rounded-full text-sm font-medium hover:bg-white/30 transition-all hover:scale-105 whitespace-nowrap">
             Book Now
           </button>
 
