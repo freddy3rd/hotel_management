@@ -159,23 +159,25 @@ useEffect(() => {
         </div>
 
         {/* RIGHT: DYNAMIC DESCRIPTION & FEATURES */}
-        <div className="flex flex-col justify-center p-8 md:p-12 h-full order-1 md:order-2">
+        <div className="flex flex-col justify-center p-8 md:p-12 h-full order-1 md:order-2 flex-col-reverse md:flex-col">
           
-          {/* Dynamic Content: Title */}
-          <h2
-            ref={titleRef} // Hooked up for GSAP fade
-            className="text-4xl md:text-5xl font-display mb-6 tracking-tight text-brand-900"
-          >
-            {COMMODITIES[activeIndex]?.title} {/* Initial state text */}
-          </h2>
+          <div>
+                      {/* Dynamic Content: Title */}
+            <h2
+              ref={titleRef} // Hooked up for GSAP fade
+              className="text-4xl md:text-5xl font-display mb-6 tracking-tight text-brand-900"
+            >
+              {COMMODITIES[activeIndex]?.title} {/* Initial state text */}
+            </h2>
 
-          {/* Dynamic Content: Description */}
-          <p
-            ref={descRef} // Hooked up for GSAP fade
-            className="text-base text-text-secondary max-w-md mb-12 font-body leading-relaxed min-h-50"
-          >
-            {COMMODITIES[activeIndex]?.description} {/* Initial state text */}
-          </p>
+            {/* Dynamic Content: Description */}
+            <p
+              ref={descRef} // Hooked up for GSAP fade
+              className="text-base text-text-secondary max-w-md mb-12 font-body leading-relaxed min-h-50"
+            >
+              {COMMODITIES[activeIndex]?.description} {/* Initial state text */}
+            </p>
+          </div>
 
           {/* Static Content: Features Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 w-full py-10 border-t border-border-soft gap-y-10 gap-x-6 mt-auto">
