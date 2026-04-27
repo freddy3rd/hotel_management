@@ -68,7 +68,7 @@ function FadeInText({
   as: Tag = "p",
   className = "",
 }: Props) {
-  const textRef = useRef<HTMLElement | null>(null);
+  const textRef = useRef<any>(null);
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -113,7 +113,7 @@ function FadeLeftText({
   as: Tag = "p",
   className = "",
 }: Props) {
-  const textRef = useRef<HTMLElement | null>(null);
+  const textRef = useRef<any>(null);
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -238,7 +238,7 @@ export type FadeInTextRef = {
 
 export const useFadeInText = forwardRef<FadeInTextRef, FadeInProps>(
   ({ text, as: Tag = "p", className = "", duration = 0.8, delay = 0, reversed = false }, ref) => {
-    const textRef = useRef<HTMLElement | null>(null);
+    const textRef = useRef<any>(null);
     const tl = useRef<gsap.core.Timeline | null>(null);
 
     // Expose methods to parent components via ref

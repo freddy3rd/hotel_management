@@ -3,7 +3,6 @@
 import BookingWidget from '@/components/ui/BookingWidget'
 import { FadeInTextAnimation } from '@/components/ui/ControlledFadeIn';
 import StarRating from '@/components/ui/StarsRating'
-import { IMAGES } from '@/constants/Image'
 import { useRef, useState } from 'react';
 
 

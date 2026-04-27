@@ -1,9 +1,9 @@
 import Navbar from '@/components/layout/Header'
 import Hero from './components/Hero'
 import Room from './components/Room'
-import ScrollStory from './components/Commodities'
+
 import Commodities from './components/Commodities'
-import FeaturesSection from './components/Features'
+
 
 
 function Index() {

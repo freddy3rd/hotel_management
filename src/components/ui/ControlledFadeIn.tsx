@@ -19,7 +19,7 @@ type Props = {
 
 export const FadeInTextAnimation = forwardRef<FadeInTextRef, Props>(
   ({ children, as: Tag = "p", className = "", duration = 0.8, delay = 0, reversed = false }, ref) => {
-    const textRef = useRef<HTMLElement | null>(null);
+    const textRef = useRef<any>(null);
     const tl = useRef<gsap.core.Timeline | null>(null);
 
     useImperativeHandle(ref, () => ({

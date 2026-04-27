@@ -10,6 +10,7 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-in-out h-25 flex items-center ${

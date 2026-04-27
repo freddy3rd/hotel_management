@@ -144,7 +144,7 @@ useEffect(() => {
             {COMMODITIES.map((item, index) => (
               <div
                 key={index}
-                ref={(el) => (cardsRef.current[index] = el)}
+                ref={(el) => { cardsRef.current[index] = el; }}
                 // Increased visual footprint
                 className="min-w-[420px] h-[480px] rounded-3xl overflow-hidden shadow-soft bg-surface border border-border-soft group transition-shadow duration-500 hover:shadow-xl"
               >
