@@ -40,7 +40,7 @@ function Room() {
       {/* ROOMS GRID */}
       <div className="container max-w-[1400px] mx-auto px-10">
         <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          <div className="col-span-3 place-self-end">
+          <div className="md:col-span-3 place-self-end">
               <button className="bg-brand-600 text-surface font-display font-bold px-8 py-3 tracking-widest text-sm transition-all duration-300 hover:bg-brand-500 hover:scale-105 active:scale-95 uppercase cursor-pointer">
                   SHOW MORE
               </button>

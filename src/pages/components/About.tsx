@@ -4,7 +4,7 @@ import { ROOMS } from "@/constants/Image"
 function About() {
   return (
    <section className="relative w-full overflow-hidden place-content-center">
-        <div className="grid grid-cols-2 border-b border-brand-600/50  max-w-350 m-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 border-b border-brand-600/50  max-w-350 m-auto">
             <div className="p-8">
                 <span className="text-brand-400 uppercase tracking-luxury text-xs font-semibold my-2">Welcome to <b>The State</b></span>
                 <VerticalRevealText
