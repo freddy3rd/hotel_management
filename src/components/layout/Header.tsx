@@ -22,11 +22,7 @@ const Navbar: React.FC = () => {
         <div className="w-full max-w-450 mx-auto md:px-10 px-4 grid grid-cols-3 items-center">
           {/* Left Column */}
           <div className="flex justify-start">
-            {scrolled && (
-              <button className="text-[10px] font-bold tracking-[0.2em] uppercase text-text-primary hover:opacity-60 transition-opacity">
-                Menu
-              </button>
-            )}
+            
           </div>
 
           {/* Center Column */}
