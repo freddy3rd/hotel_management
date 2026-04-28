@@ -15,7 +15,7 @@ function Service() {
 
   {/* Content */}
   <div className="relative z-10 h-full flex flex-col justify-center  px-6 md:px-16 text-white max-w-350 m-auto">
-    <div className="relative flex gap-12 place-content-center">
+    <div className="relative flex md:flex-row flex-col gap-12 place-content-center">
        <div className="relative">
             <h2 className="text-2xl md:text-6xl font-display font-semibold mb-3">
                 Want Other Special Service?
