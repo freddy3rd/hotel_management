@@ -31,7 +31,7 @@ function Service() {
             <div>
        </div>
        </div>
-        <button className="bg-surface text-text-primary font-display h-max font-bold px-8 py-3 my-4 mx-2 tracking-widest text-sm transition-all duration-300 hover:bg-surface-muted hover:scale-105 active:scale-95 uppercase cursor-pointer md:place-self-center whitespace-nowrap">
+        <button className="bg-surface text-text-primary font-display h-max w-max font-bold px-8 py-3 my-4 mx-2 tracking-widest text-sm transition-all duration-300 hover:bg-surface-muted hover:scale-105 active:scale-95 uppercase cursor-pointer md:place-self-center whitespace-nowrap">
             Contact Us
         </button>
 
