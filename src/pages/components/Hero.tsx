@@ -29,7 +29,7 @@ function Hero() {
     setIsPlaying((prev) => !prev);
     toggleVideo();
 
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
 
     if (!isPlaying) {
         // PLAY → PAUSE
@@ -192,43 +192,34 @@ function Hero() {
 
                     <button
                         onClick={handleClick}
-                        className="
-                            glass text-white px-10 py-5 rounded-full
-                            font-bold text-sm uppercase tracking-widest
-                            border border-white/20
-                            flex items-center gap-3
-                            transition-all hover:bg-white/10 hover:scale-[1.03]
-                            active:scale-95
-                            group
-                            cursor-pointer
-                        "
-                        >
+                        className="glass text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-widest border border-white/20 flex items-center gap-3 transition-all hover:bg-white/10 hover:scale-[1.03] active:scale-95 group cursor-pointer"
+                    >
                         <div className="relative w-5 h-5 flex items-center justify-center">
-                            {isPlaying ? (
-                            /* PAUSE ICON */
-                            <svg
-                                ref={pauseRef}
-                                className="w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                            </svg>
-                            ) : (
-                            /* PLAY ICON */
+                            {/* PLAY ICON - Always in DOM */}
                             <svg
                                 ref={playRef}
-                                className="w-5 h-5"
+                                className="w-5 h-5 absolute"
                                 fill="currentColor"
                                 viewBox="0 0 24 24"
+                                style={{ opacity: isPlaying ? 0 : 1, scale: isPlaying ? 0.6 : 1 }}
                             >
                                 <path d="M8 5v14l11-7z" />
                             </svg>
-                            )}
+
+                            {/* PAUSE ICON - Always in DOM */}
+                            <svg
+                                ref={pauseRef}
+                                className="w-5 h-5 absolute"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                style={{ opacity: isPlaying ? 1 : 0, scale: isPlaying ? 1 : 0.6 }}
+                            >
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
                         </div>
 
                         <span>{isPlaying ? "Pause Tour" : "Virtual Tour"}</span>
-                        </button>
+                    </button>
                     </div>
                 </div>
 

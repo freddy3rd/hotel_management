@@ -133,7 +133,7 @@ useEffect(() => {
 
 
       {/* 2. CONTENT GRID (Carousel on left, dynamic description on right) */}
-      <div className="container max-w-350 m-auto grid grid-cols-1 md:grid-cols-2 items-center px-10 gap-x-12">
+      <div className="container max-w-350 m-auto grid grid-cols-1 md:grid-cols-2 items-center px-10 gap-x-5">
 
         {/* LEFT: HORIZONTAL CAROUSEL TRACK */}
         <div className="relative flex items-center overflow-hidden h-125 order-2 md:order-1">
@@ -159,7 +159,7 @@ useEffect(() => {
         </div>
 
         {/* RIGHT: DYNAMIC DESCRIPTION & FEATURES */}
-        <div className="flex flex-col justify-center p-4 md:p-12 h-full order-1 md:order-2 flex-col-reverse md:flex-col">
+        <div className="flex flex-col justify-center p-4 md:p-4 h-full order-1 md:order-2 flex-col-reverse md:flex-col">
           
           <div>
                       {/* Dynamic Content: Title */}
@@ -173,7 +173,7 @@ useEffect(() => {
             {/* Dynamic Content: Description */}
             <p
               ref={descRef} // Hooked up for GSAP fade
-              className="text-base text-text-secondary max-w-md mb-12 font-body leading-relaxed min-h-50"
+              className="text-base text-text-secondary max-w-lg mb-12 font-body leading-relaxed min-h-50"
             >
               {COMMODITIES[activeIndex]?.description} {/* Initial state text */}
             </p>
@@ -194,7 +194,7 @@ useEffect(() => {
                   {feature.title}
                 </h3>
                 
-                <p className="text-brand-500 text-xs font-body max-w-[20ch]">
+                <p className="text-brand-500 text-xs font-body">
                   {feature.description}
                 </p>
               </div>

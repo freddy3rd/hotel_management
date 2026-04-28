@@ -3,6 +3,8 @@ import Hero from './components/Hero'
 import Room from './components/Room'
 
 import Commodities from './components/Commodities'
+import About from './components/About'
+import Service from './components/Service'
 
 
 
@@ -64,9 +66,11 @@ function Index() {
       
       <Navbar />
       <Hero />
+      <About/>
       {/* <FeaturesSection */}
       <Commodities/>
       <Room />
+      <Service/>
     </div>
   )
 }
