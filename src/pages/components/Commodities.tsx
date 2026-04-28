@@ -35,7 +35,7 @@ useEffect(() => {
     if (total === 0) return;
 
     const cardWidth = 420;
-    const cardGap = 48; 
+    const cardGap = 30; 
     const totalWidth = (total - 1) * (cardWidth + cardGap);
 
     gsap.to(trackRef.current, {
