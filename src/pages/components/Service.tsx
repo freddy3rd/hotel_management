@@ -15,7 +15,7 @@ function Service() {
 
   {/* Content */}
   <div className="relative z-10 h-full flex flex-col justify-center  px-6 md:px-16 text-white max-w-350 m-auto">
-    <div className="relative flex md:flex-row flex-col gap-12 place-content-center">
+    <div className="relative flex md:flex-row flex-col gap-4 md:gap-12 place-content-center">
        <div className="relative">
             <h2 className="text-2xl md:text-6xl font-display font-semibold mb-3">
                 Want Other Special Service?
@@ -31,7 +31,7 @@ function Service() {
             <div>
        </div>
        </div>
-        <button className="bg-surface text-text-primary font-display h-max font-bold px-8 py-3 my-4 mx-2 tracking-widest text-sm transition-all duration-300 hover:bg-surface-muted hover:scale-105 active:scale-95 uppercase cursor-pointer place-self-center whitespace-nowrap">
+        <button className="bg-surface text-text-primary font-display h-max font-bold px-8 py-3 my-4 mx-2 tracking-widest text-sm transition-all duration-300 hover:bg-surface-muted hover:scale-105 active:scale-95 uppercase cursor-pointer md:place-self-center whitespace-nowrap">
             Contact Us
         </button>
 
