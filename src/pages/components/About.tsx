@@ -1,9 +1,33 @@
 import { FadeInText, VerticalRevealText } from "@/components/Animation"
 import { ROOMS } from "@/constants/Image"
- 
+import { useGSAP } from "@gsap/react"
+import { useRef } from "react"
+import gsap from "gsap" 
 function About() {
+
+  const containerRef = useRef<HTMLDivElement>(null)
+    useGSAP(() =>{
+        const overlay = gsap.utils.toArray('.imgOverlay');
+
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top 80%",
+                markers: true,
+                toggleActions: "play reverse play reverse"
+            }
+        }).fromTo(overlay, {
+            xPercent: 0
+        }, {
+            xPercent: 100,
+            ease: "expo.inOut",
+            duration: 1,
+            stagger: 0.2
+        })
+
+  })
   return (
-   <section className="relative w-full overflow-hidden place-content-center">
+   <section ref={containerRef} className="relative w-full overflow-hidden place-content-center">
         <div className="grid grid-cols-1 md:grid-cols-2 border-b border-brand-600/50  max-w-350 m-auto">
             <div className="p-8">
                 <span className="text-brand-400 uppercase tracking-luxury text-xs font-semibold my-2">Welcome to <b>The State</b></span>
@@ -25,14 +49,17 @@ function About() {
             </div>
             <div className="grid grid-cols-2 gap-4 border-green-500 p-8 items-center justify-center">
                 {/* <div className="absolute inset-0 h-full w-full"> */}
-                <div className="h-120 place-content-end">
+                <div className="relative h-120 place-content-end">
+
+                    <div className="imgOverlay absolute left-0 w-full h-[90%] bg-bg"/>
                     <img 
                     src={ROOMS.image_1} 
                     alt="Background"
                     className="h-[90%] w-full object-cover"
                     />
                 </div>
-                <div className="h-120 place-content-start">
+                <div className="relative h-120 place-content-start">
+                    <div className="imgOverlay absolute left-0 w-full h-[90%] bg-bg"/>
                     <img 
                     src={ROOMS.image_2} 
                     alt="Background"
