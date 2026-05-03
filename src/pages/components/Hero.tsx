@@ -6,6 +6,7 @@ import StarRating from '@/components/ui/StarsRating'
 import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import ville_vid from "@/assets/video/villa.mp4"
+import { useGSAP } from '@gsap/react';
 
 function Hero() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -24,6 +25,7 @@ function Hero() {
     };
   const playRef = useRef<SVGSVGElement>(null);
   const pauseRef = useRef<SVGSVGElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null)
 
   const handleClick = () => {
     setIsPlaying((prev) => !prev);
@@ -39,7 +41,8 @@ function Hero() {
             rotate: -90,
             duration: 0.2,
             ease: "power2.out",
-        }).fromTo(
+        })
+        .fromTo(
             pauseRef.current,
             {
             scale: 0.6,
@@ -81,6 +84,16 @@ function Hero() {
         );
         }
     };
+
+    useGSAP(() =>{
+        gsap.timeline({
+            defaults: { overwrite: 'auto', ease: "power4.inOut"}
+        }).from(overlayRef.current,{
+            opacity: 0,
+            duration: 1,
+            ease: "power4.in"
+        })
+    })
     return (
         <section className='relative lg:h-screen min-h-screen w-full place-content-center md:p-10 border-none md:overflow-hidden bg-bg'>
             <div className='relative w-full md:h-full h-screen md:rounded-3xl overflow-clip text-bg place-content-center border-none
@@ -224,7 +237,7 @@ function Hero() {
                 </div>
 
                 {/* Background Image */}
-                <div className='absolute inset-0 bg-black/40 z-1' />
+                <div ref={overlayRef} className='absolute inset-0 bg-black/40 z-1' />
                 <video
                     src={ville_vid}
                     ref={videoRef}
