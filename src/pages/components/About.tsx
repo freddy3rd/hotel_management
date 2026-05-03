@@ -13,7 +13,6 @@ function About() {
             scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top 80%",
-                markers: true,
                 toggleActions: "play reverse play reverse"
             }
         }).fromTo(overlay, {
